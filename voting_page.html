@@ -1,0 +1,801 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>GC CCS Student Council Voting System</title>
+	<!--====================================== bootstrap style START ==============================================-->
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+	<!--====================================== bootstrap style END ==============================================-->
+	
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	
+	<script type="text/javascript" src="js/jquery.transit.js"></script>
+	
+	<!-- bootstrap scripts START -->
+	
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<!-- bootstrap scripts END -->
+	<script type="text/javascript">
+		var loggedInStatus = window.localStorage.getItem("loggedInStatus");
+		var loggedInAdminStatus = window.localStorage.getItem("loggedInAdminStatus");
+		if(loggedInStatus != 1){
+			//check if LOGGED IN
+			location.href = "index.html";
+		}else{
+			//check if ADMIN
+			if(loggedInAdminStatus == 1){
+				location.href = "index.html";
+				
+			}else{
+				
+			}
+		}
+	</script>
+	
+	
+	<link rel="stylesheet" href="css/custom-style.css" />
+	<style type="text/css">
+	*{
+		margin:0;
+		padding:0;
+		
+	}
+	
+	.floatNone{
+		float:none;
+	}
+	
+	.txtAlignCenter{
+		text-align:center;
+	}
+	.txtAlignLeft{
+		text-align:left;
+	}
+	.txtAlignRight{
+		text-align:right;
+	}
+	.noPadding{
+		padding:0;
+	}
+	.noBorder{
+		border:0;
+	}
+	.noMargin{
+		margin:0;
+	}
+	.noBg{
+		background:none;
+	}
+	html, body{
+		position:relative;
+		width:100%:
+		height:100%;
+		
+	}
+	a, button, .btn , .btnCustom, .candidateContainer, div
+		{
+			-ms-touch-action: manipulation; /* IE10  */
+			touch-action: manipulation;     /* IE11+ */
+			-webkit-tap-highlight-color: rgba(0,0,0,0);
+			-ms-tap-highlight-color: rgba(0,0,0,0);
+			tap-highlight-color: rgba(0,0,0,0);
+		}
+		
+	.header{
+		text-align:center;
+	}
+	.main-content{
+		text-align:center;
+	}
+	legend{
+		margin-top:20px;
+		margin-bottom:20px;
+	}
+	.candidateChooseContainer{
+		text-align:center;
+	}
+	.candidateContainer{
+		padding:5px;
+		background:red;
+		background:none;
+		display:inline-block;
+		vertical-align:text-top;
+		text-align:center;
+		
+	}
+	.candidateContainer:hover{
+		cursor:pointer;
+	}
+	.candidateDetails{
+		padding:3%;
+		background:blue;
+		background:rgba(0,0,0,.5);
+		color:#fff;
+		text-align:center;
+		min-height:250px
+	}
+	.selectedCandidate{
+		background:yellow;
+	}
+	.candidatePic{
+		max-height:192px;
+		margin-bottom:10px;
+	}
+	.candidateDetailsTxt{
+		
+		display:inline-block;
+		text-align:left;
+	}
+	.img-responsive{
+		display:inline-block;
+	}
+	
+	
+	</style>
+</head>
+<body>
+	<!-- header START -->
+	<div class="header col-lg-12 col-md-12 col-sm-12 col-xs-12 txtAlignCenter noBorderRadius">
+		<div class="floatLeft verticalAlignMiddle btnToHomePage">
+			<img src="img/gc-ccs.png" class="img-responsive inlineBlock verticalAlignMiddle" style="height:40px;padding:2px;" alt="" />
+			<h4 class="inlineBlock verticalAlignMiddle">Student Council Voting System</h4>
+		</div>
+		<div class="floatRight verticalAlignMiddle">
+		<!-- <button class="btn btn-warning inlineBlock floatRight">Admin</button>
+		<button class="btn btn-primary inlineBlock floatRight">Vote</button> -->
+			<!-- <span class="verticalAlignMiddle">Welcome: (20112320)Timbas,Rojan,A. </span> -->
+			<span class="verticalAlignMiddle"><span class="loggedInDetails"></span></span>
+			<span class="loginNav">
+				<button class="btn btn-primary btnVoterLoginModal inlineBlock verticalAlignMiddle">Vote</button>
+				<button class="btn btn-danger btnAdminLoginModal inlineBlock verticalAlignMiddle">Admin Panel</button>
+			</span>
+			
+			<span class="logoutNav">
+				<button class="btn btn-danger btnLogout inlineBlock verticalAlignMiddle">Logout</button>
+			</span>
+		</div>
+	</div><!-- header END -->
+	
+	<div class="main-content col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		
+		<h3 >Voting Ballot</h3>
+		<!-- presDiv START-->
+		<div class="candidateChooseContainer  col-lg-12 col-md-12 col-sm-12 col-xs-12" id = "presDiv"> <!-- d2 magAappend -->
+		<legend><h4>President (<b class = "presCountCheck" >PLEASE CHOOSE 1</b>)</h4></legend>
+			
+			
+			
+		</div><!-- presDiv END-->
+		
+		
+		<!-- ACTdiv START-->
+		<div class="candidateChooseContainer  col-lg-12 col-md-12 col-sm-12 col-xs-12" id = "ACTdiv"> <!-- d2 magAappend -->
+		<legend><h4>ACT Representatives (<b class = "actCountCheck" >PLEASE CHOOSE 4</b>)</h4></legend>
+			
+			
+			
+		</div><!-- ACTdiv END-->
+		
+		
+		<!-- BSCSdiv START-->
+		<div class="candidateChooseContainer  col-lg-12 col-md-12 col-sm-12 col-xs-12" id = "BSCSdiv"> <!-- d2 magAappend -->
+		<legend><h4>BSCS Representatives (<b class = "bscsCountCheck" >PLEASE CHOOSE 4</b>)</h4></legend>
+			
+			
+		</div><!-- BSCSdiv END-->
+		
+		
+		<!-- BSITdiv START-->
+		<div class="candidateChooseContainer  col-lg-12 col-md-12 col-sm-12 col-xs-12" id = "BSITdiv"> <!-- d2 magAappend -->
+		<legend><h4>BSIT Representatives (<b class = "bsitCountCheck" >PLEASE CHOOSE 4</b>)</h4></legend>
+			
+		</div><!-- BSITdiv END-->
+		
+		<div class="col-xs-12 form-group" style="padding:20px 0;">
+			<button class = "btnVote btn-success btn btn-block btn-lg">VOTE</button>
+		</div>
+	</div>
+	<div class = "modal-container">
+		<div class = "modal" id = "confirmModal">
+			
+				<h2>You have Successfully Voted.</h2>
+				<h2>Thank You.</h2>
+			
+			<button class = "btn btn-info btn-block" onclick = "logOut();">OK</button>
+		</div>
+	</div>
+</body>
+
+	<script type="text/javascript" src="js/custom-scripts.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	showCandidateBasedOnCourse();
+	showcandidatePresident();
+	var loggedInCourse = window.localStorage.getItem("loggedInCourse");
+	$(".candidateChooseContainer").hide();
+	$("#presDiv").show();
+	if(loggedInCourse == "BSCS"){
+		$("#BSCSdiv").show();
+	}else if(loggedInCourse == "ACT"){
+		$("#ACTdiv").show();
+	}else if(loggedInCourse == "BSIT"){
+		$("#BSITdiv").show();
+	
+	}
+
+
+	getProfile();
+	
+	function getProfile(){
+		var student_id = window.localStorage.getItem('student_id');
+		var student_lname = window.localStorage.getItem('student_lname');
+		var student_fname = window.localStorage.getItem('student_fname');
+		var student_mname = window.localStorage.getItem('student_mname');
+		//var student_course = window.localStorage.getItem('student_course');
+		var student_sy_start = window.localStorage.getItem('student_sy_start');
+		var student_sy_end = window.localStorage.getItem('student_sy_end');
+		
+		$('.studId').html(student_id);
+		$('.fname').html(student_fname);
+		$('.lname').html(student_lname);
+		$('.mname').html(student_mname);
+		$('.syStart').html(student_sy_start);
+		$('.syEnd').html(student_sy_end);
+	}
+	
+	var pres = "";		//value of this will be inserted in db
+	//var vpres1 = ""; 	//value of this will be inserted in db
+	//var vpres2 = ""; 	//value of this will be inserted in db
+	//var sec = ""; 		//value of this will be inserted in db
+	//var treas = ""; 	//value of this will be inserted in db
+	var act1 = "";		//value of this will be inserted in db
+	var act2 = "";		//value of this will be inserted in db
+	var act3 = "";		//value of this will be inserted in db
+	var act4 = "";		//value of this will be inserted in db
+	var cs1 = "";		//value of this will be inserted in db
+	var cs2 = "";		//value of this will be inserted in db
+	var cs3 = "";		//value of this will be inserted in db
+	var cs4 = "";		//value of this will be inserted in db
+	var it1 = "";		//value of this will be inserted in db
+	var it2 = "";		//value of this will be inserted in db
+	var it3 = "";		//value of this will be inserted in db
+	var it4 = "";		//value of this will be inserted in db
+	
+	var vpresCountChecker = 0;  //counter to check vpres count
+	var actCountChecker = 0;	//counter to check act count
+	var bscsCountChecker = 0;	//counter to check bscs count
+	var bsitCountChecker = 0;	//counter to check bsit count
+	
+	countChecker();
+	function countChecker(){
+		
+		//vice countCheck statement start
+		if(vpresCountChecker == 2){
+			$('.vpresCountCheck').html('OK');
+		}else if(vpresCountChecker == 1){
+			$('.vpresCountCheck').html('PLEASE CHOOSE 1');
+		}else{
+			$('.vpresCountCheck').html('PLEASE CHOOSE 2');
+		}
+		//vice countCheck statement end
+		
+		//act countCheck statement start
+		if(actCountChecker == 4){
+			$('.actCountCheck').html('OK');
+		}else if(actCountChecker == 3){
+			$('.actCountCheck').html('PLEASE CHOOSE 1');
+		}else if(actCountChecker == 2){
+			$('.actCountCheck').html('PLEASE CHOOSE 2');
+		}else if(actCountChecker == 1){
+			$('.actCountCheck').html('PLEASE CHOOSE 3');
+		}else{
+			$('.actCountCheck').html('PLEASE CHOOSE 4');
+		}
+		//act countCheck statement end
+		
+		//bscs countCheck statement start
+		if(bscsCountChecker == 4){
+			$('.bscsCountCheck').html('OK');
+		}else if(bscsCountChecker == 3){
+			$('.bscsCountCheck').html('PLEASE CHOOSE 1');
+		}else if(bscsCountChecker == 2){
+			$('.bscsCountCheck').html('PLEASE CHOOSE 2');
+		}else if(bscsCountChecker == 1){
+			$('.bscsCountCheck').html('PLEASE CHOOSE 3');
+		}else{
+			$('.bscsCountCheck').html('PLEASE CHOOSE 4');
+		}
+		//bscs countCheck statement end
+		
+		//bsit countCheck statement start
+		if(bsitCountChecker == 4){
+			$('.bsitCountCheck').html('OK');
+			
+		}else if(bsitCountChecker == 3){
+			$('.bsitCountCheck').html('PLEASE CHOOSE 1');
+		}else if(bsitCountChecker == 2){
+			$('.bsitCountCheck').html('PLEASE CHOOSE 2');
+		}else if(bsitCountChecker == 1){
+			$('.bsitCountCheck').html('PLEASE CHOOSE 3');
+		}else{
+			$('.bsitCountCheck').html('PLEASE CHOOSE 4');
+		}
+		//bsit countCheck statement end
+	}
+	
+	//$('.candidate-Pres').click(function(){
+	$(document).on("click",".candidate-Pres",function(){
+		
+		check = $(this).find('span').html();
+		if(pres == "" || pres != check){
+			$('.candidate-Pres').css('background','none');
+			pres = $(this).find('span').html();
+			$('.presCountCheck').html('OK');
+			//alert(pres);
+			$(this).css('background','#4eb4f8');
+			
+			$(this).css('color','#fff');
+			
+		}else if(pres == check){
+			 pres = "";
+			 $('.presCountCheck').html('PLEASE CHOOSE 1');
+			  //alert('deselect');
+			 $(this).css('background','none');
+			 
+		}
+	});
+	
+	//$('.candidateVice').click(function(){
+	$(document).on("click",".candidateVice",function(){
+		 check = $(this).find('span').html();
+		
+			if(check == vpres1){			
+				vpres1 = "";
+				vpresCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == vpres2){
+				vpres2 = "";
+				vpresCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else{
+				if(vpres1 == ""){
+					vpres1 = $(this).find('span').html();
+					vpresCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in vpres1");
+					$(this).css('background','#4eb4f8');
+				}else if(vpres2 == ""){
+					vpres2 = $(this).find('span').html();
+					vpresCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in vpres2");
+					$(this).css('background','#4eb4f8');
+				}else{
+					//alert(vpres1+vpres2); //check the the var
+					//alert('full');
+					countChecker();
+				}
+			}
+		
+	});
+	$('.candidateSec').click(function(){
+		check = $(this).find('span').html();
+		if(sec == "" || sec != check){
+			$('.candidateSec').css('background','none');
+			sec = $(this).find('span').html();
+			$('.secCountCheck').html('OK');
+			//alert(sec);
+			$(this).css('background','#4eb4f8');
+		}else if(sec == check){
+			sec = "";
+			$('.secCountCheck').html('PLEASE CHOOSE 1');
+			//alert('deselect');
+			$(this).css('background','none');
+		}
+	});
+	$('.candidateTreas').click(function(){
+		check = $(this).find('span').html();
+		if(treas == "" || treas != check){
+			$('.candidateTreas').css('background','none');
+			treas = $(this).find('span').html();
+			$('.treasCountCheck').html('OK');
+			//alert(treas);
+			$(this).css('background','#4eb4f8');
+		}else if(treas == check){
+			treas = "";
+			$('.treasCountCheck').html('PLEASE CHOOSE 1');
+			//alert('deselect');
+			$(this).css('background','none');
+		}
+	});
+	
+	//$('#ACTdiv').on("click","candidate-ACT",function(){
+	$(document).on("click",".candidate-ACT",function(){
+		 check = $(this).find('span').html();
+		
+			if(check == act1){			
+				act1 = "";
+				actCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == act2){
+				act2 = "";
+				actCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == act3){
+				act3 = "";
+				actCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == act4){
+				act4 = "";
+				actCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else{
+				if(act1 == ""){
+					act1 = $(this).find('span').html();
+					actCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in act1");
+					$(this).css('background','#4eb4f8');
+				}else if(act2 == ""){
+					act2 = $(this).find('span').html();
+					actCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in act2");
+					$(this).css('background','#4eb4f8');
+				}else if(act3 == ""){
+					act3 = $(this).find('span').html();
+					actCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in act3");
+					$(this).css('background','#4eb4f8');
+				}else if(act4 == ""){
+					act4 = $(this).find('span').html();
+					actCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in act4");
+					$(this).css('background','#4eb4f8');
+				}else{
+					//alert(act1+act2+act3+act4); //check value
+					//alert('full');
+					countChecker();
+				}
+			}
+		
+	});
+	//$('.candidate-BSCS').click(function(){
+	$(document).on("click",".candidate-BSCS",function(){
+		 check = $(this).find('span').html();
+		
+			if(check == cs1){			
+				cs1 = "";
+				bscsCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == cs2){
+				cs2 = "";
+				bscsCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == cs3){
+				cs3 = "";
+				bscsCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == cs4){
+				cs4 = "";
+				bscsCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else{
+				if(cs1 == ""){
+					cs1 = $(this).find('span').html();
+					bscsCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in cs1");
+					$(this).css('background','#4eb4f8');
+				}else if(cs2 == ""){
+					cs2 = $(this).find('span').html();
+					bscsCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in cs2");
+					$(this).css('background','#4eb4f8');
+				}else if(cs3 == ""){
+					cs3 = $(this).find('span').html();
+					bscsCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in cs3");
+					$(this).css('background','#4eb4f8');
+				}else if(cs4 == ""){
+					cs4 = $(this).find('span').html();
+					bscsCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in cs4");
+					$(this).css('background','#4eb4f8');
+				}else{
+					//alert(cs1+cs2+cs3+cs4); //check value
+					//alert('full');
+					countChecker();
+				}
+			}
+		
+	});
+	//$('.candidate-BSIT').click(function(){
+	$(document).on("click",".candidate-BSIT",function(){
+		 check = $(this).find('span').html();
+		
+			if(check == it1){			
+				it1 = "";
+				bsitCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == it2){
+				it2 = "";
+				bsitCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == it3){
+				it3 = "";
+				bsitCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else if(check == it4){
+				it4 = "";
+				bsitCountChecker --; //minus 1 the counter
+				countChecker();
+				$(this).css('background','none');
+				//alert('deselect');
+			}else{
+				if(it1 == ""){
+					it1 = $(this).find('span').html();
+					bsitCountChecker ++; //plus 1 the counter
+					countChecker();
+					//alert("inserted in it1");
+					$(this).css('background','#4eb4f8');
+				}else if(it2 == ""){
+					it2 = $(this).find('span').html();
+					bsitCountChecker ++; //minus 1 the counter
+					countChecker(); 
+					//alert("inserted in it2");
+					$(this).css('background','#4eb4f8');
+				}else if(it3 == ""){
+					it3 = $(this).find('span').html();
+					bsitCountChecker ++; //minus 1 the counter
+					countChecker();
+					//alert("inserted in it3");
+					$(this).css('background','#4eb4f8');
+				}else if(it4 == ""){
+					it4 = $(this).find('span').html();
+					bsitCountChecker ++; //minus 1 the counter
+					countChecker();
+					//alert("inserted in it4");
+					$(this).css('background','#4eb4f8');
+				}else{
+					//alert(it1+it2+it3+it4); //check value
+					//alert('full');
+					countChecker();
+				}
+			}
+		
+	});
+	//$('.btnVote').click(function(){
+	$(document).on("click",".btnVote",function(){
+		checkAll(); //check if already voted to all position
+	});
+	
+	function addVote(){
+		//var stud_id = parseInt($('.studId').html());
+		var stud_id = window.localStorage.getItem("loggedInId");
+		//select representative based on selected course
+		var selectedCourse = loggedInCourse;
+		var rep1, rep2, rep3, rep4;
+		if(selectedCourse == "ACT"){
+			rep1 = act1;
+			rep2 = act2;
+			rep3 = act3;
+			rep4 = act4;
+		}else if(selectedCourse == "BSIT"){
+			rep1 = it1;
+			rep2 = it2;
+			rep3 = it3;
+			rep4 = it4;
+		}else if(selectedCourse == "BSCS"){
+			rep1 = cs1;
+			rep2 = cs2;
+			rep3 = cs3;
+			rep4 = cs4;
+		}
+		
+		$.ajax({
+			url: "phpfile/add_vote.php",
+			type: "POST",
+			dataType: "json",
+			data: {"stud_id":stud_id,"pres_id":pres,"selected_course":selectedCourse,"rep1":rep1,"rep2":rep2,"rep3":rep3,"rep4":rep4},
+			success: function(data){
+				//alert('VOTING SUCCESS!'); 
+				//logOut();
+				showThisModal('confirmModal');
+			},
+			error: function(xhr) {
+                if(xhr.status == 422) {
+                  //alert(parseErrors(xhr));
+                } else {
+					
+					//alert('An error occurred while processing the request.');
+					//alert("readyState: "+xhr.readyState);
+					//alert("status: "+xhr.status);
+					//alert("responseText: "+xhr.responseText);
+                }
+				//alert('error');
+				//do something if error
+			}
+		});
+	};
+	function checkAll(){
+		//check pres first
+		//check what course
+		//check representative
+		if(pres != ""){
+			if(loggedInCourse == "BSCS"){
+				if(cs1 != "" && cs2 != "" && cs3 != "" && cs4 != ""){		
+					addVote();
+				}else{
+				}
+			}else if(loggedInCourse == "BSIT"){
+				if(it1 != "" && it2 != "" && it3 != "" && it4 != ""){		
+					addVote();
+				}else{
+				}
+			}else if(loggedInCourse == "ACT"){
+				if(act1 != "" && act2 != "" && act3 != "" && act4 != ""){		
+					addVote();
+				}else{
+				}
+			}
+		}else{
+			//alert('Please Vote to ALL POSITION');
+			if(pres == ""){
+				location.href = "#presDiv";
+			}else if(act1 == "" || act2 == "" || act3 == "" || act4 == "" || actCountChecker != 4){
+				location.href = "#ACTdiv";
+			}else if(cs1 == "" || cs2 == "" || cs3 == "" || cs4 == "" || bscsCountChecker != 4){
+				location.href = "#BSCSdiv";
+			}else if(it1 == "" || it2 == "" || it3 == "" || it4 == "" || bsitCountChecker != 4){
+				location.href = "#BSITdiv";
+			}
+		}
+	
+	}
+	
+
+});
+
+
+	function showCandidateBasedOnCourse(){
+			var selectedCourse = window.localStorage.getItem("loggedInCourse");
+			$.ajax({	
+			url: "phpfile/show_candidate_based_on_course.php",
+			type: "POST",
+			dataType: "json",
+			data: {"selected_course":selectedCourse},
+			success: function(data){
+				
+				for(var i=0;i<data.length;i++){
+					name =  data[i].stud_lname +", "+ data[i].stud_fname +", "+ data[i].stud_mname;
+					//name = name.toUpperCase();
+					//var studID = parseInt(data[i].stud_id);
+					var myFancyDiv = "<div class='candidateContainer col-lg-3 col-md-3 col-sm-3 col-xs-12 candidate-"+ selectedCourse +" inlineBlock'>"+
+						"<div class='candidateDetails col-lg-12 col-md-12 col-sm-12 col-xs-12' style='text-align:center;'>"+
+							"<img src='img/candidates/"+data[i].stud_id+".jpg'  class='img-responsive candidatePic col-xs-6 col-xs-offset-3' alt='No Image Available' onerror='imgError(this);'/>"+
+							"<div class='candidateDetailsTxt '>"+
+								"<span class='candidateID' hidden>"+ data[i].stud_id +"</span>"+
+								"<div class='col-xs-3 '>Name: </div><div class='col-xs-9'>"+ name +"</div>  <br />"+
+								"<div class='col-xs-3 '>Position: </div><div class='col-xs-9'>"+ data[i].stud_position_name +"</div><br />"+
+								"<div class='col-xs-3 '>Course: </div><div class='col-xs-9'>"+ data[i].stud_course  +"</div> <br />"+
+								"<div class='col-xs-3 '>Year: </div><div class='col-xs-9'>"+ data[i].stud_year +"</div> <br />"+
+							"</div>"+
+						"</div>"+
+					"</div>";
+					
+						
+					$("#"+selectedCourse+"div").append(myFancyDiv);
+					
+					
+				}
+				
+				
+			},
+			error: function(xhr) {
+                if(xhr.status == 422) {
+                  //alert(parseErrors(xhr));
+                } else {
+					
+					//alert('An error occurred while processing the request.');
+					//alert("readyState: "+xhr.readyState);
+					//alert("status: "+xhr.status);
+					//alert("responseText: "+xhr.responseText);
+                }
+				//alert('error');
+				//do something if error
+			}
+		});
+	}
+	
+	function showcandidatePresident(){
+			$.ajax({	
+			url: "phpfile/show_candidate_president.php",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				
+				for(var i=0;i<data.length;i++){
+					name =  data[i].stud_lname +", "+ data[i].stud_fname +", "+ data[i].stud_mname;
+					//name = name.toUpperCase();
+					
+					//var studID = parseInt(data[i].stud_id);
+					var myFancyDiv = "<div class='candidateContainer col-lg-3 col-md-3 col-sm-3 col-xs-12 candidate-Pres inlineBlock'>"+
+						"<div class='candidateDetails col-lg-12 col-md-12 col-sm-12 col-xs-12' style='text-align:center;'>"+
+							"<img src='img/candidates/"+data[i].stud_id+".jpg'  class='img-responsive candidatePic col-xs-6 col-xs-offset-3'  alt='No Image Available' onerror='imgError(this);'/>"+
+							"<div class='candidateDetailsTxt '>"+
+								"<span class='candidateID' hidden>"+ data[i].stud_id +"</span>"+
+								"<div class='col-xs-3 '>Name: </div><div class='col-xs-9'>"+ name +"</div>  <br />"+
+								"<div class='col-xs-3 '>Position: </div><div class='col-xs-9'>"+ data[i].stud_position_name +"</div><br />"+
+								"<div class='col-xs-3 '>Course: </div><div class='col-xs-9'>"+ data[i].stud_course  +"</div> <br />"+
+								"<div class='col-xs-3 '>Year: </div><div class='col-xs-9'>"+ data[i].stud_year +"</div> <br />"+
+							"</div>"+
+						"</div>"+
+					"</div>";
+					
+						
+					$("#presDiv").append(myFancyDiv);
+					
+					
+				}
+				
+				
+			},
+			error: function(xhr) {
+                if(xhr.status == 422) {
+                  //alert(parseErrors(xhr));
+                } else {
+					
+					//alert('An error occurred while processing the request.');
+					//alert("readyState: "+xhr.readyState);
+					//alert("status: "+xhr.status);
+					//alert("responseText: "+xhr.responseText);
+                }
+				//alert('error');
+				//do something if error
+			}
+		});
+	}
+	
+	function imgError(image) {
+		image.onerror = "";
+		image.src = "img/candidates/default-image.png";
+		return true;
+	}
+	//$(document).on("click",".candidateContainer",function(){
+	//	//alert("test");
+	//});
+</script>
+</html>

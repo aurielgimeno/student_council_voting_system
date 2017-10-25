@@ -1,0 +1,824 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<title>GC CCS Student Council Voting System</title>
+	<!--====================================== bootstrap style START ==============================================-->
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+	<!--====================================== bootstrap style END ==============================================-->
+	
+	<!--====================================== DataTables style START ==============================================-->
+	<link rel="stylesheet" href="css/jquery.dataTables.css" />
+	<link rel="stylesheet" href="css/jquery.dataTables.min.css" />
+	
+	
+	<!--====================================== DataTables style END ==============================================-->
+	
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	
+	<script type="text/javascript" src="js/jquery.transit.js"></script>
+	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+	
+	<!-- bootstrap scripts START -->
+	
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<!-- bootstrap scripts END -->
+	
+	
+	<script type="text/javascript">
+		var loggedInStatus = window.localStorage.getItem("loggedInStatus");
+		var loggedInAdminStatus = window.localStorage.getItem("loggedInAdminStatus");
+		if(loggedInStatus != 1){
+			//check if LOGGED IN
+			location.href = "index.html";
+		}else{
+			//check if ADMIN
+			if(loggedInAdminStatus == 1){
+			}else{
+				location.href = "index.html";
+			}
+		}
+		
+	
+	</script>
+	
+	<link rel="stylesheet" href="css/custom-style.css" />
+	<style type="text/css">
+		
+		.tab-pane{
+			padding:5px;
+			text-align:left;
+		}
+		.nav-tabs > li{
+			float:right;
+		}
+	</style>
+</head>
+<body>
+	<!-- modal container START -->
+	<div class="modal-container">
+		<!-- voterLoginModal START -->
+		<div class="modal" id="voterLoginModal">
+			<button class="btnShowMainMenu btn">x</button>
+			<h2>Voter Login</h2>
+			<p>Incorrect ID / You Already Voted</p>
+			<div class="form-group">
+			  <input type="text" class="form-control" placeholder="ID number">
+			</div>
+			<div class="form-group">
+			  <div class="form-control btn btn-primary">Login</div>
+			</div>
+			
+			<a href="voting_page.html">voting_page.html</a>
+		</div><!-- voterLoginModal END -->
+		
+		
+		<!-- adminLoginModal START -->
+		<div class="modal" id="adminLoginModal">
+			<button class="btnShowMainMenu btn">x</button>
+			<h2>Admin Login</h2>
+			<p>Invalid Username or Password</p>
+			<div class="form-group">
+			  <input type="text" class="form-control" placeholder="Username">
+			</div>
+			<div class="form-group">
+			  <input type="password" class="form-control" placeholder="******">
+			</div>
+			<div class="form-group">
+			  <div class="form-control btn btn-primary">Login</div>
+			</div>
+			<a href="admin_panel_page.html">admin_panel_page.html</a>
+		</div><!-- adminLoginModal END -->
+		
+	</div><!-- modal container END -->
+	
+	
+	<!-- header START -->
+	<div class="header col-lg-12 col-md-12 col-sm-12 col-xs-12 txtAlignCenter noBorderRadius">
+		<div class="floatLeft verticalAlignMiddle btnToHomePage">
+			<img src="img/gc-ccs.png" class="img-responsive inlineBlock verticalAlignMiddle" style="height:40px;padding:2px;" alt="" />
+			<h4 class="inlineBlock verticalAlignMiddle">Student Council Voting System</h4>
+		</div>
+		<div class="floatRight verticalAlignMiddle">
+		<!-- <button class="btn btn-warning inlineBlock floatRight">Admin</button>
+		<button class="btn btn-primary inlineBlock floatRight">Vote</button> -->
+			<!-- <span class="verticalAlignMiddle">Welcome: (20112320)Timbas,Rojan,A. </span> -->
+			<span class="verticalAlignMiddle"><span class="loggedInDetails"></span></span>
+			<span class="loginNav">
+				<button class="btn btn-primary btnVoterLoginModal inlineBlock verticalAlignMiddle">Vote</button>
+				<button class="btn btn-danger btnAdminLoginModal inlineBlock verticalAlignMiddle">Admin Panel</button>
+			</span>
+			
+			<span class="logoutNav">
+				<button class="btn btn-danger btnLogout inlineBlock verticalAlignMiddle">Logout</button>
+			</span>
+		</div>
+	</div><!-- header END -->
+	
+	<div class="main-content col-lg-12 col-md-12 col-sm-12 col-xs-12 txtAlignCenter noPadding" style="padding:20px;">
+		<div style="font-size:1em;float:left">
+			<span><b>Total No of Voters:</b> <span class="countVoteTotal"></span></span>/
+			<span><b>Voted:</b> <span class="countVoteVoted"></span> </span>/
+			<span><b>Pending:</b> <span class="countVotePending"></span> </span>
+		</div>
+		
+		<ul class="nav nav-tabs">
+		  <li><a href="#voterMan" data-toggle="tab">Voter Manager</a></li>
+		  <li><a href="#candiMan" data-toggle="tab">Candidate Manager</a></li>
+		  <li  class="active"><a href="#reportManager" data-toggle="tab">Reports</a></li>
+		  
+		  <!-- <li><a href="#systemManager" data-toggle="tab">System Manager</a></li> -->
+		 
+		</ul>
+		<div id="myTabContent" class="tab-content">
+		  <div class="tab-pane fade in" id="voterMan">
+			
+			<div class="col-xs-10">
+				<legend>
+					<h2>Voters</h2> 
+					
+				</legend>
+				
+				<table class="table table-striped table-hover " id="voterTable">
+				  <thead>
+					<tr>
+					  <th>ID num</th>
+					  <th>Lname</th>
+					  <th>Fname</th>
+					  <th>Mname</th>
+					  <th>Yr</th>
+					  <th>Course</th>
+					  <th>SY</th>
+					  <th>Status</th>
+					 
+					</tr>
+				  </thead>
+				  <tbody id="showVoters">
+					
+				  </tbody>
+				</table> 
+			</div>
+			<div class="col-xs-2">
+				<legend><h2>Navigation</h2></legend>
+				
+				<div class="form-group">
+					<span>Select Type:</span>
+					<select class="form-control cmbBoxVoters" name="" id="">
+						<option value="none" disabled >-- Select Type --</option>
+						<option value="all" selected>All</option>
+						<option value="1">Voted</option>
+						<option value="0">Pending</option>
+						
+					</select>
+				</div>
+				
+				<!-- <div class="form-group">
+					<div class="form-control btn btn-primary">Add New Voter</div>
+				</div> -->
+				
+				
+			</div>
+		  </div>
+			<div class="tab-pane fade" id="candiMan">
+				<div class="col-xs-10">
+				<legend><h2>Candidates</h2></legend>
+					<div class="cmTableContainer cmShowPresDiv">
+						<legend>President Position</legend>
+						<table class="table table-striped table-hover ">
+						  <thead>
+							<tr>
+							  <th>ID num</th>
+							  <th>Fname</th>
+							  <th>Lname</th>
+							  <th>Mname</th>
+							  <th>Yr</th>
+							  <th>Position</th>
+							</tr>
+						  </thead>
+						  <tbody id="cmShowPres">
+							
+						  </tbody>
+						</table>
+					</div><!-- President Table END -->
+					
+					
+					<!-- ACT Table START -->
+					<div class="cmTableContainer cmShowActDiv">
+					
+						<legend>ACT Position</legend>
+						<table class="table table-striped table-hover ">
+						  <thead>
+							<tr>
+							  <th>ID num</th>
+							  <th>Fname</th>
+							  <th>Lname</th>
+							  <th>Mname</th>
+							  <th>Yr</th>
+							  <th>Position</th>
+							</tr>
+						  </thead>
+						  <tbody id="cmShowAct">
+							
+						  </tbody>
+						</table>
+					</div><!-- ACT Table END -->
+					
+					
+					
+					<!-- BSIT Table START -->
+					<div class="cmTableContainer cmShowItDiv">
+						<legend>BSIT Position</legend>
+						<table class="table table-striped table-hover ">
+						  <thead>
+							<tr>
+							  <th>ID num</th>
+							  <th>Fname</th>
+							  <th>Lname</th>
+							  <th>Mname</th>
+							  <th>Yr</th>
+							  <th>Position</th>
+							</tr>
+						  </thead>
+						  <tbody id="cmShowIt">
+							
+						  </tbody>
+						</table>
+					</div><!-- BSIT Table END -->
+					
+						
+					<!-- BSCS Table START -->
+					<div class="cmTableContainer cmShowCsDiv">
+						<legend>BSCS Position</legend>
+						<table class="table table-striped table-hover ">
+						  <thead>
+							<tr>
+							  <th>ID num</th>
+							  <th>Fname</th>
+							  <th>Lname</th>
+							  <th>Mname</th>
+							  <th>Yr</th>
+							  <th>Position</th>
+							</tr>
+						  </thead>
+						  <tbody id="cmShowCs">
+							
+						  </tbody>
+						</table>
+					</div><!-- BSCS Table END -->
+				</div>
+				<div class="col-xs-2">
+				<legend><h2>Navigation</h2></legend>
+					<div class="form-group">
+						<span>Select Position:</span>
+						<select class="form-control cmbBoxCm" name="" id="">
+							<option value="none" disabled selected>-- Select Position --</option>
+							<option value="cmShowPres">Pres</option>
+							<option value="cmShowAct">ACT Rep</option>
+							<option value="cmShowIt">BSIT Rep</option>
+							<option value="cmShowCs">BSCS Rep</option>
+							<option value="all">All</option>
+							
+						</select>
+						
+					</div>
+					<!-- <div class="form-group">
+						<div class="form-control btn btn-primary">Add New Candidate</div>
+					</div> -->
+				</div>
+			</div>
+		  <div class="tab-pane fade  active in" id="reportManager">
+			  <div class="col-lg-10">
+				<legend><h2>Votes Tally</h2></legend>
+				
+				<!-- President Table START -->
+				<div class="tallyTableContainer showPresDiv">
+					<legend>President Position</legend>
+					<table class="table table-striped table-hover ">
+					  <thead>
+						<tr>
+						  <th>ID num</th>
+						  <th>Fname</th>
+						  <th>Lname</th>
+						  <th>Mname</th>
+						  <th>Yr</th>
+						  <th>Course</th>
+						  <th>Position</th>
+						  <th>Votes</th>
+						</tr>
+					  </thead>
+					  <tbody id="showPres">
+						
+					  </tbody>
+					</table>
+				</div><!-- President Table END -->
+				
+				
+				<!-- ACT Table START -->
+				<div class="tallyTableContainer showActDiv">
+				
+					<legend>ACT Position</legend>
+					<table class="table table-striped table-hover ">
+					  <thead>
+						<tr>
+						  <th>ID num</th>
+						  <th>Fname</th>
+						  <th>Lname</th>
+						  <th>Mname</th>
+						  <th>Yr</th>
+						  <th>Course</th>
+						  <th>Position</th>
+						  <th>Votes</th>
+						</tr>
+					  </thead>
+					  <tbody id="showAct">
+						
+					  </tbody>
+					</table>
+				</div><!-- ACT Table END -->
+				
+				
+				
+				<!-- BSIT Table START -->
+				<div class="tallyTableContainer showItDiv">
+					<legend>BSIT Position</legend>
+					<table class="table table-striped table-hover ">
+					  <thead>
+						<tr>
+						  <th>ID num</th>
+						  <th>Fname</th>
+						  <th>Lname</th>
+						  <th>Mname</th>
+						  <th>Yr</th>
+						  <th>Course</th>
+						  <th>Position</th>
+						  <th>Votes</th>
+						</tr>
+					  </thead>
+					  <tbody id="showIt">
+						
+					  </tbody>
+					</table>
+				</div><!-- BSIT Table END -->
+				
+				
+				
+				<!-- BSCS Table START -->
+				<div class="tallyTableContainer showCsDiv">
+					<legend>BSCS Position</legend>
+					<table class="table table-striped table-hover ">
+					  <thead>
+						<tr>
+						  <th>ID num</th>
+						  <th>Fname</th>
+						  <th>Lname</th>
+						  <th>Mname</th>
+						  <th>Yr</th>
+						  <th>Course</th>
+						  <th>Position</th>
+						  <th>Votes</th>
+						</tr>
+					  </thead>
+					  <tbody id="showCs">
+						
+					  </tbody>
+					</table>
+				</div><!-- BSCS Table END -->
+				
+				
+			</div>
+			<div class="col-lg-2">
+				<legend><h2>Navigation</h2></legend>
+				<!-- <div class="form-group">
+					<span>Select School Year:</span>
+					<select class="form-control" name="" id="">
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>
+				</div> -->
+				<div class="form-group">
+					<span>Select Position:</span>
+					<select class="form-control cmbBoxTally" name="" id="">
+						<option value="none" disabled selected>-- Select Position --</option>
+						<option value="showPres">Pres</option>
+						<option value="showAct">ACT Rep</option>
+						<option value="showIt">BSIT Rep</option>
+						<option value="showCs">BSCS Rep</option>
+						<option value="all">All</option>
+						
+					</select><br />
+					<button class = "form-control btn btn-warning" id = "btnReport" >Generate Report</button>
+				</div>
+				<!-- <div class="form-group">
+					<div class="form-control btn btn-primary">Generate Report</div>
+				</div> -->
+			</div>
+		  </div>
+		  <div class="tab-pane fade" id="systemManager">
+			<div class="col-xs-10">
+			<legend><h2>Content</h2></legend>
+			</div>
+			<div class="col-xs-2">
+			<legend><h2>Navigation</h2></legend>
+			</div>
+		  </div>
+		</div>
+		
+		
+	</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 footer">
+		<span class="floatRight">Copyright 2015</span>
+	</div>
+</body>
+<script type="text/javascript" src="js/custom-scripts.js"></script>
+	
+<script type="text/javascript">
+$(document).ready(function(){
+	
+
+
+	showLoggedInDetails();
+	
+	showAllPres();
+	showAllAct();
+	showAllBscs();
+	showAllBsit();
+	countVoters();
+	
+	showAllVoter();
+	$('#btnReport').hide();
+	
+	$(".tallyTableContainer").hide();
+	$(".cmTableContainer").hide();
+	
+	$(".cmbBoxTally").change(function() {		
+		showAllPres();
+		showAllAct();
+		showAllBscs();
+		showAllBsit();
+		countVoters();
+		
+		
+		var a = (this.value);
+		$(".tallyTableContainer").hide();
+		
+		if(a == "all"){
+			
+			$(".tallyTableContainer").show();
+			$('#btnReport').hide();
+		}else{
+			$('#btnReport').show();
+			$(".tallyTableContainer").hide();
+			$("."+a+"Div").show();
+		}
+		
+	});	
+	
+	$('#btnReport').click(function(){
+		var cmbtally = $('.cmbBoxTally').val();
+		
+		if(cmbtally == 'showPres'){
+			location.href = 'report_president.php';
+		}else if(cmbtally == 'showAct'){
+			location.href = 'report_act.php';
+		}else if(cmbtally == 'showCs'){
+			location.href = 'report_cs.php';
+		}else{
+			location.href = 'report_it.php';
+		}
+	});
+	
+	$(".cmbBoxCm").change(function() {		
+		
+		cmShowAllPres();
+		cmShowAllAct();
+		cmShowAllBsit();
+		cmShowAllBscs();
+		
+		
+		var a = (this.value);
+		$(".cmTableContainer").hide();
+		if(a == "all"){
+			$(".cmTableContainer").show();
+		}else{
+			$(".cmTableContainer").hide();
+			$("."+a+"Div").show();
+		}
+		
+	});	
+	
+	$(".cmbBoxVoters").change(function() {		
+		$(".tableItemVoters").remove();
+		var a = (this.value);
+		if(a == "all"){
+			showAllVoter();
+		}else if(a == 1){
+			showAllVoted();
+		}else if(a == 0){
+			showAllNotVoted();
+		}
+		
+	});	
+	
+	
+
+	function showAllPres(){
+		$(".tableItem").remove();
+		$.ajax({
+			url: "phpfile/show_pres.php",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				for(var i=0;i<data.length;i++){
+					var studID = parseInt(data[i].stud_id);
+					$('#showPres').append(
+						'<tr class = "tableItem">'+
+							'<td>'+studID+'</td>'+
+							'<td>'+data[i].stud_fname+'</td>'+
+							'<td>'+data[i].stud_lname+'</td>'+
+							'<td>'+data[i].stud_mname+'</td>'+
+							'<td>'+data[i].stud_year+'</td>'+
+							'<td>'+data[i].stud_course+'</td>'+
+							'<td>'+data[i].stud_position+'</td>'+
+							'<td>'+data[i].stud_votes+'</td>'+
+						'</tr>');
+				}
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+
+
+	function showAllAct(){
+		$.ajax({
+			url: "phpfile/show_act.php",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				for(var i=0;i<data.length;i++){
+					var studID = parseInt(data[i].stud_id);
+					$('#showAct').append(
+						'<tr class = "tableItem">'+
+							'<td>'+studID+'</td>'+
+							'<td>'+data[i].stud_fname+'</td>'+
+							'<td>'+data[i].stud_lname+'</td>'+
+							'<td>'+data[i].stud_mname+'</td>'+
+							'<td>'+data[i].stud_year+'</td>'+
+							'<td>'+data[i].stud_course+'</td>'+
+							'<td>'+data[i].stud_position+'</td>'+
+							'<td>'+data[i].stud_votes+'</td>'+
+						'</tr>'
+					);
+				}
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+	function showAllBscs(){
+		$.ajax({
+			url: "phpfile/show_bscs.php",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				for(var i=0;i<data.length;i++){
+					var studID = parseInt(data[i].stud_id);
+					$('#showCs').append(	
+						'<tr class = "tableItem">'+
+							'<td>'+studID+'</td>'+
+							'<td>'+data[i].stud_fname+'</td>'+
+							'<td>'+data[i].stud_lname+'</td>'+
+							'<td>'+data[i].stud_mname+'</td>'+
+							'<td>'+data[i].stud_year+'</td>'+
+							'<td>'+data[i].stud_course+'</td>'+
+							'<td>'+data[i].stud_position+'</td>'+
+							'<td>'+data[i].stud_votes+'</td>'+
+						'</tr>'
+					);
+				}
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+	function showAllBsit(){
+		$.ajax({
+			url: "phpfile/show_bsit.php",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				for(var i=0;i<data.length;i++){
+					var studID = parseInt(data[i].stud_id);
+					$('#showIt').append(
+						'<tr class = "tableItem">'+
+							'<td>'+studID+'</td>'+
+							'<td>'+data[i].stud_fname+'</td>'+
+							'<td>'+data[i].stud_lname+'</td>'+
+							'<td>'+data[i].stud_mname+'</td>'+
+							'<td>'+data[i].stud_year+'</td>'+
+							'<td>'+data[i].stud_course+'</td>'+
+							'<td>'+data[i].stud_position+'</td>'+
+							'<td>'+data[i].stud_votes+'</td>'+
+						'</tr>'
+					);
+				}
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+	
+	function cmShowAllPres(){
+		$(".cmTableItem").remove();
+		$.ajax({
+			url: "phpfile/show_candidate_president.php",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				for(var i=0;i<data.length;i++){
+					var studID = parseInt(data[i].stud_id);
+					$('#cmShowPres').append(
+						'<tr class = "cmTableItem">'+
+							'<td>'+studID+'</td>'+
+							'<td>'+data[i].stud_fname+'</td>'+
+							'<td>'+data[i].stud_lname+'</td>'+
+							'<td>'+data[i].stud_mname+'</td>'+
+							'<td>'+data[i].stud_year+'</td>'+
+							'<td>'+data[i].stud_position_name+'</td>'+
+						'</tr>');
+				}
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+	
+	function cmShowAllAct(){
+		$(".cmTableItem").remove();
+		$.ajax({
+			url: "phpfile/show_candidate_based_on_course.php",
+			type: "POST",
+			data: {"selected_course" : "ACT"},
+			dataType: "json",
+			success: function(data){
+				for(var i=0;i<data.length;i++){
+					var studID = parseInt(data[i].stud_id);
+					$('#cmShowAct').append(
+						'<tr class = "cmTableItem">'+
+							'<td>'+studID+'</td>'+
+							'<td>'+data[i].stud_fname+'</td>'+
+							'<td>'+data[i].stud_lname+'</td>'+
+							'<td>'+data[i].stud_mname+'</td>'+
+							'<td>'+data[i].stud_year+'</td>'+
+							'<td>'+data[i].stud_position_name+'</td>'+
+						'</tr>');
+				}
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+	function cmShowAllBsit(){
+		$(".cmTableItem").remove();
+		$.ajax({
+			url: "phpfile/show_candidate_based_on_course.php",
+			type: "POST",
+			data: {"selected_course" : "BSIT"},
+			dataType: "json",
+			success: function(data){
+				for(var i=0;i<data.length;i++){
+					var studID = parseInt(data[i].stud_id);
+					$('#cmShowIt').append(
+						'<tr class = "cmTableItem">'+
+							'<td>'+studID+'</td>'+
+							'<td>'+data[i].stud_fname+'</td>'+
+							'<td>'+data[i].stud_lname+'</td>'+
+							'<td>'+data[i].stud_mname+'</td>'+
+							'<td>'+data[i].stud_year+'</td>'+
+							'<td>'+data[i].stud_position_name+'</td>'+
+						'</tr>');
+				}
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+	function cmShowAllBscs(){
+		$(".cmTableItem").remove();
+		$.ajax({
+			url: "phpfile/show_candidate_based_on_course.php",
+			type: "POST",
+			data: {"selected_course" : "BSCS"},
+			dataType: "json",
+			success: function(data){
+				for(var i=0;i<data.length;i++){
+					var studID = parseInt(data[i].stud_id);
+					$('#cmShowCs').append(
+						'<tr class = "cmTableItem">'+
+							'<td>'+studID+'</td>'+
+							'<td>'+data[i].stud_fname+'</td>'+
+							'<td>'+data[i].stud_lname+'</td>'+
+							'<td>'+data[i].stud_mname+'</td>'+
+							'<td>'+data[i].stud_year+'</td>'+
+							'<td>'+data[i].stud_position_name+'</td>'+
+						'</tr>');
+				}
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+	
+	function countVoters(){
+		$.ajax({
+			url: "phpfile/count_voters.php",
+			type: "POST",
+			dataType: "json",
+			success: function(data){
+				$(".countVoteTotal").html(data[0].total_voters);
+				$(".countVoteVoted").html(data[0].voted);
+				$(".countVotePending").html(data[0].pending);
+				
+			},
+			error: function(data){
+				//do something if error
+				alert("error");
+				}
+			
+		});
+	}
+
+	
+	
+});
+
+
+<!-- Show ALL Voter -->
+function showAllVoter(){
+	$('#voterTable').dataTable({
+            "bDestroy": true
+        }).fnDestroy();
+	$('#voterTable').dataTable( {
+		"processing": true,
+		"serverSide": true,
+		"ajax": "phpfile/show_allvoters.php"
+	} );
+}
+<!-- Show ALL Voter -->
+
+<!-- Show ALL ALREADY Voted -->
+function showAllVoted(){
+	$('#voterTable').dataTable({
+            "bDestroy": true
+        }).fnDestroy();
+	$('#voterTable').dataTable( {
+		"processing": true,
+		"serverSide": true,
+		"ajax": "phpfile/show_voted.php"
+	} );
+
+	
+}
+
+<!-- Show ALL ALREADY Voted -->
+
+<!-- Show ALL not yet Voted -->
+function showAllNotVoted(){
+	$('#voterTable').dataTable({
+            "bDestroy": true
+        }).fnDestroy();
+	$('#voterTable').dataTable( {
+		"processing": true,
+		"serverSide": true,
+		"ajax": "phpfile/show_notvoted.php"
+	} );
+}
+
+<!-- Show ALL not yet Voted -->
+</script>
+</html>

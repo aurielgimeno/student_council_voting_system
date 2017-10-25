@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>GC CCS Student Council Voting System</title>
+	<!--====================================== bootstrap style START ==============================================-->
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css" />
+	<!--====================================== bootstrap style END ==============================================-->
+	
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	
+	<script type="text/javascript" src="js/jquery.transit.js"></script>
+	
+	<!-- bootstrap scripts START -->
+	
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<!-- bootstrap scripts END -->
+	
+	
+	<link rel="stylesheet" href="css/custom-style.css" />
+	<style type="text/css">
+		
+		
+	</style>
+</head>
+<body>
+	<!-- modal container START -->
+	<div class="modal-container">
+		<!-- voterLoginModal START -->
+		<div class="modal" id="voterLoginModal">
+			<button class="btnShowMainMenu btn">x</button>
+			<form action="">
+				<h2>Voter Login</h2>
+				<p class="voterLoginMsg"></p>
+				<div class="form-group">
+				  <input type="text" id="voterUsername" class="form-control" placeholder="ID number" tabindex="1">
+				</div>
+				<div class="form-group">
+				  <!-- <div id="btnVoterLogin" class="form-control btn btn-primary"  tabindex="2">Login</div> -->
+				  <input id="btnVoterLogin" class="form-control btn btn-primary"  tabindex="2" type="submit" value="Login">
+				</div>
+			</form>
+			<!-- <a href="voting_page.html">voting_page.html</a> -->
+		</div><!-- voterLoginModal END -->
+		
+		
+		<!-- adminLoginModal START -->
+		<div class="modal" id="adminLoginModal">
+			<button class="btnShowMainMenu btn">x</button>
+			<form action="">
+				<h2>Admin Login</h2>
+				<p class="adminLoginMsg"></p>
+				<div class="form-group" >
+				  <input type="text" id="username" class="form-control" placeholder="Username" >
+				</div>
+				<div class="form-group">
+				  <input type="password" id="password" class="form-control" placeholder="******">
+				</div>
+				<div class="form-group">
+				  <input id="btnAdminLogin" class="form-control btn btn-primary" type="submit" value="Login">
+				</div>
+			</form>
+			<!-- <a href="admin_panel_page.html">admin_panel_page.html</a> -->
+		</div><!-- adminLoginModal END -->
+		
+	</div><!-- modal container END -->
+	
+	
+	<!-- header START -->
+	<div class="header col-lg-12 col-md-12 col-sm-12 col-xs-12 txtAlignCenter noBorderRadius">
+		<div class="floatLeft verticalAlignMiddle btnToHomePage">
+			<img src="img/gc-ccs.png" class="img-responsive inlineBlock verticalAlignMiddle" style="height:40px;padding:2px;" alt="" />
+			<h4 class="inlineBlock verticalAlignMiddle">Student Council Voting System</h4>
+		</div>
+		<div class="floatRight verticalAlignMiddle">
+		<!-- <button class="btn btn-warning inlineBlock floatRight">Admin</button>
+		<button class="btn btn-primary inlineBlock floatRight">Vote</button> -->
+			<!-- <span class="verticalAlignMiddle">Welcome: (20112320)Timbas,Rojan,A. </span> -->
+			<span class="verticalAlignMiddle"><span class="loggedInDetails"></span></span>
+			<span class="loginNav">
+				<button class="btn btn-primary btnVoterLoginModal inlineBlock verticalAlignMiddle">Vote</button>
+				<button class="btn btn-danger btnAdminLoginModal inlineBlock verticalAlignMiddle">Admin Panel</button>
+			</span>
+			
+			<span class="logoutNav">
+				<button class="btn btn-danger btnLogout inlineBlock verticalAlignMiddle">Logout</button>
+			</span>
+		</div>
+	</div><!-- header END -->
+	
+	
+	<div class="main-content col-lg-12 col-md-12 col-sm-12 col-xs-12 txtAlignCenter noPadding">
+		
+		<!-- <div class="btn btn-lg btn-primary btnVoterLogin">VOTE(for student/voter)</div><br /><br />
+		<div class="btn btn-lg btn-success btnAdminLogin">ADMIN LOGIN</div><br />
+		<div class="btn btn-lg btn-success btnAdminLogout">ADMIN Logout</div><br />
+		<div class="btn btn-lg btn-success btnAdminPanel">ADMIN Panel</div><br />
+		<a href="voting_page.html"><button>go to voting page</button></a> -->
+		<div class="col-lg-12 noPadding">
+			<div id="myCarousel" class="carousel slide noPadding">
+			   <!-- Carousel indicators -->
+			   <ol class="carousel-indicators">
+				  <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+				  <li data-target="#myCarousel" data-slide-to="1"></li>
+			   </ol>   
+			   <!-- Carousel items -->
+			   <div class="carousel-inner">
+				  <div class="item active">
+					 <!-- <img src="img/slide1.png" class="col-lg-12" alt="First slide"> -->
+					 <img src="img/slide1.png" class="col-lg-12" alt="First slide">
+					
+				  </div>
+				  <div class="item">
+					 <img src="img/slide2.png" class="col-lg-12" alt="Second slide">
+					
+				  </div>
+			   </div>
+			   <!-- Carousel nav -->
+			   <a class="carousel-control left" href="#myCarousel" 
+				  data-slide="prev">&lsaquo;</a>
+			   <a class="carousel-control right" href="#myCarousel" 
+				  data-slide="next">&rsaquo;</a>
+			</div> 
+			
+		</div>
+		
+		<div class="col-lg-2 txtAlignCenter inlineBlock">
+			<br />
+				<div class="col-lg-12 btn btn-primary btnVoterLoginModal inlineBlock">
+					<span style="color:#ffffff;font-size:2em">Vote</span>
+					<!-- <img src="img/KNIGHT.png" class="img-responsive inlineBlock col-lg-12 col-md-12 col-sm-12 col-xs-12"  alt="" /> -->
+					<!-- voter login -->
+				</div>
+			
+		</div>
+		
+		
+	</div>
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 footer">
+		<span class="floatRight">Copyright 2015</span>
+	</div>
+</body>
+
+
+<script type="text/javascript" src="js/custom-scripts.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	$("form").submit(function(e){
+		e.preventDefault();
+	});
+	<!-- admin Log in -->
+	$("#btnAdminLogin").click(function(){
+		
+		if($("#username").val()=="" || $("#password").val()=="")
+		{
+			//alert("Please Enter Username/Password");
+			$(".adminLoginMsg").html("Please Enter Username/Password");
+		}
+		else
+		{
+			adminLogin();
+		}
+	
+	});
+	<!-- admin Log in -->
+	
+	<!-- Student Log in -->
+	$("#btnVoterLogin").click(function(){
+		$(".voterLoginMsg").html("");
+		if($("#voterUsername").val()==""){
+			//alert("Invalid input");
+			$(".voterLoginMsg").html("Invalid input");
+		}else{
+			voterLogin();
+		}	
+	});
+	<!-- Student Log in -->
+	
+	<!-- Add Candidate -->
+	$("#addCandidate").click(function(){
+		addCandidate();
+	});
+	<!-- Add Candidate -->
+	$("#addSY").click(function(){
+		addSchoolYear();
+	});
+	
+});
+
+</script>
+</html>
